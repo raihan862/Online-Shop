@@ -1,0 +1,168 @@
+@import "~antd/dist/antd.css";
+
+.home-page-container {
+  background-color: whitesmoke;
+  min-height: 100vh;
+}
+.right {
+  float: right !important;
+}
+.menu-bar {
+  display: flex;
+  background-color: rgb(36, 35, 35);
+  padding: 10px 30px;
+  align-items: center;
+  justify-content: space-around;
+}
+.menu-con {
+  flex: 0.9;
+}
+.drawerBtn {
+  display: none;
+}
+.ant-menu-horizontal {
+  border-bottom: none;
+}
+.ant-menu-item {
+  padding: 0px;
+  margin: 0px;
+}
+.menu-con ul {
+  color: white;
+  border-bottom: none !important;
+  background: transparent !important;
+}
+.ant-menu-item a {
+  color: white !important;
+}
+.serach-bar {
+  background-color: white;
+  padding: 20px 30px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.search-field {
+  min-width: 400px;
+  text-align: center;
+  display: flex;
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+#search-input,
+#search-button {
+  padding: 10px 15px;
+  border: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+#search-button {
+  height: 100%;
+  padding-left: 20px !important;
+  background: rgb(240, 14, 59);
+  color: white;
+}
+.cart-field {
+  padding-left: 40px;
+  position: relative;
+}
+.cart-field2 {
+  padding-left: 40px;
+  position: relative;
+  display: none;
+}
+.cart-field p,
+.cart-field2 p {
+  position: absolute;
+  color: rgb(218, 75, 75);
+  font-weight: 600;
+  font-size: 20px;
+  top: -6px;
+  left: 53px;
+}
+.cart-field2 p {
+  top: -7px;
+  left: 58px;
+}
+.cart-field img,
+.cart-field2 img {
+  padding: 3px;
+}
+.barsBtn {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: white;
+  position: relative;
+}
+
+.barsBtn:after,
+.barsBtn:before {
+  content: attr(x);
+  width: 20px;
+  position: absolute;
+  top: -6px;
+  left: 0;
+  height: 2px;
+  background: white;
+}
+
+.barsBtn:after {
+  top: auto;
+  bottom: -6px;
+}
+.ant-card {
+  padding: 20px;
+}
+.ant-card-cover {
+  text-align: center;
+}
+.ant-card-cover img {
+  width: 80%;
+  height: 150px;
+  object-fit: contain;
+  margin: auto;
+}
+@media (min-width: 768px) {
+  .ant-drawer {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .menu-con ul {
+    display: none;
+  }
+  .ant-menu-item a {
+    color: black !important;
+  }
+  .cart-field {
+    display: none;
+  }
+  .cart-field2 {
+    display: flex;
+    position: absolute;
+    right: 83px;
+    top: 10px;
+  }
+  .drawerBtn {
+    display: block;
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    color: white;
+    background: transparent !important;
+    padding-bottom: 2px;
+    border: none;
+  }
+  .search-field {
+    width: 90%;
+  }
+}
+@media (max-width: 375px) {
+  .search-field {
+    width: 100%;
+  }
+}
