@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
-import authImg from "../../auth.png";
+import authImg from "../../assects/auth.png";
 import "./authentication.css";
 import Login from "./Login/Login";
 import Signup from "./Signup/Signup";

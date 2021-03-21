@@ -4,32 +4,31 @@ import {
   StarFilled,
 } from "@ant-design/icons";
 import { Button, Col, Row } from "antd";
-import React, { useContext, useState } from "react";
-import { CartContext } from "../../App";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCartAction,
+  decreaseItemQuantityAction,
+  increaseItemQuantityAction,
+  removeFromCartAction,
+} from "../../Store/Actions/CartAction";
 
 const DetailSection = (props) => {
   const product = props.product;
-
-  const { cart } = useContext(CartContext);
-  const [cartItem, setCartItem] = cart;
+  const cartItem = useSelector((state) => state.cart.cart);
+  const dispacth = useDispatch();
   const [cartMessage, setCartMessage] = useState({ mgs: "", color: "" });
   const handleIncreaseQuantity = (e) => {
-    const i = cartItem.findIndex((item) => item._id === product._id);
-    cartItem[i].quantity = product.quantity + 1;
-    setCartItem([...cartItem]);
+    dispacth(increaseItemQuantityAction(product._id));
   };
 
   const handleDecreaseQuantity = (e) => {
-    const i = cartItem.findIndex((item) => item._id === product._id);
-    if (product.quantity > 1) {
-      cartItem[i].quantity = product.quantity - 1;
-      setCartItem([...cartItem]);
-    }
+    dispacth(decreaseItemQuantityAction(product._id));
   };
   const handleAddToCart = (e) => {
     const isInCart = cartItem.findIndex((item) => item._id == product._id);
     if (isInCart == -1) {
-      setCartItem([...cartItem, product]);
+      dispacth(addToCartAction(product));
       setCartMessage({ mgs: "Added To Cart", color: "green" });
       setTimeout(() => {
         setCartMessage({ mgs: "", color: "" });
@@ -42,8 +41,7 @@ const DetailSection = (props) => {
     }
   };
   const handleRemoveFromCart = (e) => {
-    const filterData = cartItem.filter((item) => item._id !== product._id);
-    setCartItem(filterData);
+    dispacth(removeFromCartAction(product._id));
   };
 
   return (

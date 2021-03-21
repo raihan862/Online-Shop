@@ -1,16 +1,14 @@
 import { Button, Input } from "antd";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../App";
-import cartIcon from "../../cart.png";
+import cartIcon from "../../assects/cart.png";
 import HomeContent from "./Body/HomeContent";
 
 const HomePageItem = () => {
   const [searchInput, setSearchInput] = useState("");
 
-  const { cart, product } = useContext(CartContext);
-  const [products, setProducts] = product;
-  const [cartItem, setCartItem] = cart;
+  const cartItem = useSelector((state) => state.cart.cart);
   const handleProductSearch = (e) => {
     setSearchInput(e.target.value);
   };

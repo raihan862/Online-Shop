@@ -1,14 +1,13 @@
 import { Col, Row } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { CartContext } from "../../App";
 import DetailSection from "./DetailSection";
 import "./product.css";
 
 const ProductsDetails = () => {
   const { productId } = useParams();
-  const { cart, product: p } = useContext(CartContext);
-  const [products, setProducts] = p;
+  const products = useSelector((state) => state.products.products);
   const [product, setProduct] = useState({});
   useEffect(() => {
     const p = products?.filter((p) => p._id == productId);
@@ -22,7 +21,16 @@ const ProductsDetails = () => {
       <div className="top-section">
         <Row style={{ justifyContent: "center", padding: "10px" }}>
           <Col xm={20} sm={8} md={8} lg={8} className="product-img">
-            <img src={product.image} alt="" width="90%"/>
+            {product._id && (
+              <img
+                src={
+                  "https://fakestoreapi.herokuapp.com" +
+                  new URL(product.image).pathname
+                }
+                alt=""
+                width="90%"
+              />
+            )}
           </Col>
           <Col xm={20} sm={16} md={16} lg={16}>
             <DetailSection product={product} />

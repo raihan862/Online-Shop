@@ -1,14 +1,22 @@
 import { StarFilled } from "@ant-design/icons";
-import { Card, Col, Divider, Row } from "antd";
-import React, { useContext } from "react";
+import { Card, Col, Divider, Pagination, Row } from "antd";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../../App";
+import { fetchProducts } from "../../../Store/Actions/ProductActions";
 const HomeContent = (props) => {
-  const { cart, product } = useContext(CartContext);
-  const [products, setProducts] = product;
+  const products = useSelector((state) => state.products.products);
+  const count = useSelector((state) => state.products.count);
+  const [pageNumber, setPageNumber] = useState(1);
+  const dispatch = useDispatch();
   const filterProduct = products?.filter((product) =>
     product.title.toLowerCase().includes(props.searchInput.toLowerCase())
   );
+  const hadlePageChange = (page) => {
+    setPageNumber(page);
+    dispatch(fetchProducts(page));
+  };
+  console.log();
   return (
     <div style={{ padding: "10px" }}>
       <Row style={{ justifyContent: "space-around" }}>
@@ -24,8 +32,20 @@ const HomeContent = (props) => {
             }}
           >
             <Link to={`/product-details/${dt._id}`}>
-              <Card hoverable cover={<img alt="example" src={dt.image} />}>
+              <Card
+                hoverable
+                cover={
+                  <img
+                    src={
+                      "https://fakestoreapi.herokuapp.com" +
+                      new URL(dt.image).pathname
+                    }
+                    alt="productimage"
+                  />
+                }
+              >
                 <Divider />
+
                 <h3> {dt.title}</h3>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -47,6 +67,14 @@ const HomeContent = (props) => {
           </Col>
         ))}
       </Row>
+      <div style={{ margin: "auto" }}>
+        <Pagination
+          current={pageNumber}
+          total={count}
+          onChange={hadlePageChange}
+          pageSize={9}
+        />
+      </div>
     </div>
   );
 };

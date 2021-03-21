@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   loading: false,
   products: [],
   err: "",
+  count: 0,
 };
 const productReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -19,14 +20,16 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SUCCESS:
       return {
         loading: false,
-        products: action.payload,
+        products: action.payload.data,
         err: "",
+        count: action.payload.count,
       };
     case FETCH_FAILURE:
       return {
         loading: false,
         products: [],
         err: action.payload,
+        count: 0,
       };
     default:
       return state;

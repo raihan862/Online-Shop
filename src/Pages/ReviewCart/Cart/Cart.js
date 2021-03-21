@@ -1,10 +1,9 @@
 import { Button, Col, Row } from "antd";
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../../App";
 const Cart = (props) => {
-  const { cart, product } = useContext(CartContext);
-  const [cartItem, setCartItem] = cart;
+  const cartItem = useSelector((state) => state.cart.cart);
 
   let itemPrice = cartItem.reduce((total, curr) => {
     total += curr.price * curr.quantity;

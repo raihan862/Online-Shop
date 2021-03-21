@@ -9,11 +9,13 @@ const INITIAL_STATE = {
   cart: [],
 };
 const cartReducer = (state = INITIAL_STATE, action) => {
-  switch (action) {
-    case ADD_TO_CART:
+  switch (action.type) {
+    case ADD_TO_CART: {
+      console.log("come44");
       return {
         cart: [...state.cart, action.payload],
       };
+    }
     case REMOVE_FROM_CART: {
       const filterItem = state.cart.filter(
         (item) => item._id !== action.payload

@@ -11,3 +11,10 @@
     padding: 10px 20px;
   }
 }
+ul.ant-pagination {
+  text-align: center;
+  padding: 25px 5px;
+}
+.headerBtn {
+  background-color: black !important;
+}

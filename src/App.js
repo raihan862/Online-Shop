@@ -1,38 +1,29 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import AdminMain from "./Pages/Admin/AdminMain";
 import HomePage from "./Pages/HomePage/HomePage";
+import { fetchProducts } from "./Store/Actions/ProductActions";
 export const CartContext = createContext();
 
 function App() {
-  const [products, setProducts] = useState();
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetch("http://localhost:3000/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((err) => console.log("err", err));
-  }, [products]);
+    dispatch(fetchProducts());
+  }, []);
   return (
-    <CartContext.Provider
-      value={{
-        product: [products, setProducts],
-      }}
-    >
-      <BrowserRouter>
-        <Switch>
-          <Route path="/admin">
-            <AdminMain />
-          </Route>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/admin/:role">
+          <AdminMain />
+        </Route>
 
-          <Route path="/">
-            <HomePage />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </CartContext.Provider>
+        <Route path="/">
+          <HomePage />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
