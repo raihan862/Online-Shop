@@ -1,14 +1,21 @@
 import axios from "axios";
 import jwt from "jwt-decode";
+import { axiosHeader } from "../../App";
 
 export const LOGIN = "LOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
-
+export const UPDATE_LOGIN_USER = "UPDATE_LOGIN_USER";
 export const userLoginAction = () => {
   return {
     type: LOGIN,
+  };
+};
+export const updateLoginUserAction = (data) => {
+  return {
+    type: UPDATE_LOGIN_USER,
+    payload: data,
   };
 };
 export const userLogoutAction = () => {
@@ -29,6 +36,7 @@ export const loginFailureAction = (errMessages) => {
     payload: errMessages,
   };
 };
+
 export const userLogin = (userInfo) => {
   return (dispatch) => {
     dispatch(userLoginAction);
@@ -43,6 +51,7 @@ export const userLogin = (userInfo) => {
         const token = response.data.accessToken;
         const user = jwt(token);
         localStorage.setItem("token", token);
+        axiosHeader();
         dispatch(
           loginSuccessAction({
             user: user,
@@ -51,8 +60,19 @@ export const userLogin = (userInfo) => {
         );
       })
       .catch((err) => {
-        console.log("err", err.message);
         dispatch(loginFailureAction(err.message));
       });
+  };
+};
+
+export const updateLoginUser = (userInfo) => {
+  return (dispatch) => {
+    dispatch(userLoginAction);
+    axios
+      .patch(`http://localhost:3000/users/update-user`, userInfo)
+      .then((response) => {
+        dispatch(updateLoginUserAction(userInfo));
+      })
+      .catch((err) => {});
   };
 };

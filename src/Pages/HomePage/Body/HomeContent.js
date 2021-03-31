@@ -1,6 +1,6 @@
 import { StarFilled } from "@ant-design/icons";
 import { Card, Col, Divider, Pagination, Row } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchProducts } from "../../../Store/Actions/ProductActions";
@@ -12,16 +12,19 @@ const HomeContent = (props) => {
   const filterProduct = products?.filter((product) =>
     product.title.toLowerCase().includes(props.searchInput.toLowerCase())
   );
-  const hadlePageChange = (page) => {
+  const hadlePageChange = (page = 1) => {
     setPageNumber(page);
     dispatch(fetchProducts(page));
   };
-  console.log();
+  useEffect(() => {
+    dispatch(fetchProducts(1));
+  }, []);
   return (
     <div style={{ padding: "10px" }}>
       <Row style={{ justifyContent: "space-around" }}>
         {filterProduct?.map((dt) => (
           <Col
+            key={dt._id}
             sm={16}
             md={11}
             lg={7}
@@ -32,18 +35,7 @@ const HomeContent = (props) => {
             }}
           >
             <Link to={`/product-details/${dt._id}`}>
-              <Card
-                hoverable
-                cover={
-                  <img
-                    src={
-                      "https://fakestoreapi.herokuapp.com" +
-                      new URL(dt.image).pathname
-                    }
-                    alt="productimage"
-                  />
-                }
-              >
+              <Card hoverable cover={<img src={dt.image} alt="productimage" />}>
                 <Divider />
 
                 <h3> {dt.title}</h3>

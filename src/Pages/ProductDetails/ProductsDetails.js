@@ -21,16 +21,7 @@ const ProductsDetails = () => {
       <div className="top-section">
         <Row style={{ justifyContent: "center", padding: "10px" }}>
           <Col xm={20} sm={8} md={8} lg={8} className="product-img">
-            {product._id && (
-              <img
-                src={
-                  "https://fakestoreapi.herokuapp.com" +
-                  new URL(product.image).pathname
-                }
-                alt=""
-                width="90%"
-              />
-            )}
+            {product._id && <img src={product.image} alt="" width="90%" />}
           </Col>
           <Col xm={20} sm={16} md={16} lg={16}>
             <DetailSection product={product} />
@@ -38,7 +29,7 @@ const ProductsDetails = () => {
               <h4 style={{ marginTop: "15px" }}>Description</h4>
               <ul style={{ color: "gray" }}>
                 {product.description?.split(". ").map((d) => (
-                  <li>{d}</li>
+                  <li key={d}>{d}</li>
                 ))}
               </ul>
             </div>

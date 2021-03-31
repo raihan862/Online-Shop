@@ -13,6 +13,7 @@ const Cart = (props) => {
 
   const tax = ((itemPrice + shipping) * 5) / 100;
   const total = itemPrice + shipping + tax;
+  const data = { tax: tax, shipping: shipping, total: total };
   return (
     <div style={{ textAlign: "center", margin: "auto" }}>
       <h3>Order Review</h3>
@@ -39,7 +40,12 @@ const Cart = (props) => {
           </Col>
         </Row>
 
-        <Link to="/place-order">
+        <Link
+          to={{
+            pathname: "/place-order",
+            state: { data: data },
+          }}
+        >
           <Button type="default" style={{ width: "80%", borderRadius: "15px" }}>
             Place Order
           </Button>

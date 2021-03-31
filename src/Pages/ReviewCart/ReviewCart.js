@@ -6,7 +6,6 @@ import CartItem from "./CartItems/CartItem";
 import "./review.css";
 const ReviewCart = () => {
   const cartItem = useSelector((state) => state.cart.cart);
-  console.log(cartItem);
 
   return (
     <div className="container-class">
@@ -15,7 +14,7 @@ const ReviewCart = () => {
           <Row className="cart-container">
             <Col xs={24} sm={14} md={16} className="review-items">
               {cartItem.map((product) => (
-                <CartItem product={product} counter={true} key={product.key} />
+                <CartItem product={product} counter={true} key={product._id} />
               ))}
             </Col>
             <Col xs={24} sm={24} md={8} className="cart-section">

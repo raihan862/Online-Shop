@@ -1,17 +1,32 @@
 import { Button, Form, Input, Select } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+import { createUser } from "../../../Store/Actions/UserAction";
+import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 const { Option } = Select;
 const Signup = () => {
+  const users = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const onFinish = (values) => {
-    console.log("Success:", values);
+    setLoading(true);
+    dispatch(createUser(values));
+    setTimeout(() => {
+      setLoading(false);
+      history.replace("/user/login");
+    }, 1000);
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
 
   return (
     <div className="">
+      {loading && <LoadingComponent />}
+      {users.err && <p style={{ color: "red" }}>{users.err} </p>}
       <Form
         name="basic"
         initialValues={{
@@ -35,10 +50,15 @@ const Signup = () => {
         <Form.Item
           label="Email"
           name="email"
+          type="email"
           rules={[
             {
               required: true,
               message: "Please input your email!",
+            },
+            {
+              type: "email",
+              message: "Inter Valid Email Address",
             },
           ]}
         >
@@ -73,13 +93,26 @@ const Signup = () => {
           <Input.Password />
         </Form.Item>
         <Form.Item
-          label="Confirm Pass"
-          name="password"
+          name="confirm"
+          label="Confirm Password"
+          dependencies={["password"]}
+          hasFeedback
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: "Please confirm your password!",
             },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+
+                return Promise.reject(
+                  new Error("The two passwords that you entered do not match!")
+                );
+              },
+            }),
           ]}
         >
           <Input.Password />
@@ -91,6 +124,9 @@ const Signup = () => {
           </Button>
         </Form.Item>
       </Form>
+      <p>
+        Have An Account? <Link to="/user/login">Login</Link>
+      </p>
     </div>
   );
 };

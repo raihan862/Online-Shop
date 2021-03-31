@@ -1,9 +1,10 @@
 import {
+  CREATE_USER,
   DELETE_USER,
   FETCH_USER_DATA,
   FETCH_USER_FAILURE,
   FETCH_USER_SUCCESS,
-  UPDATE_USER,
+  UPDATE_USER
 } from "../Actions/UserAction";
 
 const INITIAL_STATE = {
@@ -11,6 +12,7 @@ const INITIAL_STATE = {
   users: [],
   err: "",
   count: 0,
+  redirect:false
 };
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -21,25 +23,31 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
     case FETCH_USER_SUCCESS:
       return {
+        ...state,
         loading: false,
         users: action.payload.data,
         err: "",
         count: action.payload.count,
       };
+      case CREATE_USER:{
+        return{
+          ...state,
+          redirect:action.payload
+        }
+      }
     case FETCH_USER_FAILURE:
       return {
+        ...state,
         loading: false,
-        users: [],
         err: action.payload,
         count: 0,
       };
-    case UPDATE_USER: {
-      console.log("come10");
+    
+      case UPDATE_USER: {
       const index = state.users.findIndex(
         (user) => user._id == action.payload._id
       );
       state.users[index] = action.payload;
-      console.log(state.users);
       return {
         ...state,
         loading: false,
@@ -47,6 +55,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         err: "",
       };
     }
+
     case DELETE_USER: {
       const newUsers = state.users.filter(
         (user) => user._id !== action.payload

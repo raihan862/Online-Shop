@@ -6,19 +6,11 @@ import DetailSection from "../../ProductDetails/DetailSection";
 
 const ShopItem = (props) => {
   const cartItem = useSelector((state) => state.cart.cart);
-
   return (
     <Row className="detail-in-cart">
       <Col xs={24} sm={8}>
         <Link to={`/product-details/${props.product._id}`}>
-          <img
-            src={
-              "https://fakestoreapi.herokuapp.com" +
-              new URL(props.product.image).pathname
-            }
-            alt={"product Img"}
-            width="100%"
-          />
+          <img src={props.product.image} alt={"product Img"} width="100%" />
         </Link>
       </Col>
       <Col xs={24} sm={14}>

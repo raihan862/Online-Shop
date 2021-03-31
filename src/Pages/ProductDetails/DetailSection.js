@@ -21,7 +21,6 @@ const DetailSection = (props) => {
   const handleIncreaseQuantity = (e) => {
     dispacth(increaseItemQuantityAction(product._id));
   };
-
   const handleDecreaseQuantity = (e) => {
     dispacth(decreaseItemQuantityAction(product._id));
   };
@@ -89,8 +88,8 @@ const DetailSection = (props) => {
         <Col xs={20} sm={12} md={12}>
           <h4>
             Rating :<span style={{ paddingRight: "5px" }}> </span>
-            {Array.from(Array(3), (e) => (
-              <span style={{ paddingLeft: "2px" }}>
+            {Array.from(Array(3), (e, i = 0) => (
+              <span style={{ paddingLeft: "2px" }} key={i++}>
                 <StarFilled style={{ color: "orange", fontSize: "20px" }} />
               </span>
             ))}

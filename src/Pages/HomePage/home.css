@@ -135,7 +135,7 @@
   .menu-con ul {
     display: none;
   }
-  .ant-menu-item a {
+  .ant-drawer-body .ant-menu-item a {
     color: black !important;
   }
   .cart-field {

@@ -4,9 +4,17 @@ export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
 export const FETCH_USER_FAILURE = "FETCH_FAILURE";
 export const DELETE_USER = "DELETE_USER";
 export const UPDATE_USER = "UPDATE_USER";
+export const CREATE_USER = "CREATE_USER";
 export const fetchUserDataAction = () => {
   return {
     type: FETCH_USER_DATA,
+  };
+};
+
+export const createUserAction = (isSuccess) => {
+  return {
+    type: CREATE_USER,
+    payload: isSuccess,
   };
 };
 
@@ -33,18 +41,13 @@ export const updateUserAction = (userInfo) => {
     payload: userInfo,
   };
 };
+
 export const fetchUsers = (pageNumber = 1) => {
-  const token = localStorage.getItem("token");
   return (dispatch) => {
     dispatch(fetchUserDataAction);
     axios
-      .get(`http://localhost:3000/users?pageNo=${pageNumber}`, {
-        headers: {
-          Authorization: `bearer ${token}`,
-        },
-      })
+      .get(`http://localhost:3000/users?pageNo=${pageNumber}`)
       .then((response) => {
-        console.log("user data ", response.data);
         dispatch(
           fetchUserSuccessAction({
             data: response.data.data,
@@ -53,50 +56,53 @@ export const fetchUsers = (pageNumber = 1) => {
         );
       })
       .catch((err) => {
-        dispatch(fetchUserFailureAction(err.messages));
+        dispatch(fetchUserFailureAction(err.message));
+      });
+  };
+};
+
+export const createUser = (userInfo, history) => {
+  const user = {
+    name: userInfo.username,
+    email: userInfo.email,
+    role: userInfo.role,
+    password: userInfo.password,
+  };
+  return (dispatch) => {
+    dispatch(fetchUserDataAction);
+    axios
+      .post("http://localhost:3000/users/create-user", user)
+      .then((response) => {
+        dispatch(createUserAction(true));
       });
   };
 };
 
 export const updateUser = (userInfo) => {
-  const token = localStorage.getItem("token");
-  console.log("user info", userInfo);
   return (dispatch) => {
     dispatch(fetchUserDataAction);
-    fetch(`http://localhost:3000/users/update-user`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userInfo),
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    axios
+      .patch(`http://localhost:3000/users/update-user`, userInfo)
+
+      .then((response) => {
         dispatch(updateUserAction(userInfo));
       })
       .catch((err) => {
-        console.log(err.message);
-        dispatch(fetchUserFailureAction(err.messages));
+        dispatch(fetchUserFailureAction(err.message));
       });
   };
 };
 
 export const deleteUser = (userId) => {
-  const token = localStorage.getItem("token");
   return (dispatch) => {
     dispatch(fetchUserDataAction);
     axios
-      .delete(`http://localhost:3000/users/delete-user/${userId}`, {
-        headers: {
-          Authorization: `bearer ${token}`,
-        },
-      })
+      .delete(`http://localhost:3000/users/delete-user/${userId}`)
       .then((response) => {
         dispatch(deleteUserAction(response.data._id));
       })
       .catch((err) => {
-        dispatch(fetchUserFailureAction(err.messages));
+        dispatch(fetchUserFailureAction(err.message));
       });
   };
 };

@@ -1,6 +1,7 @@
 import {
   ADD_TO_CART,
   DECREASE_ITEM_QUANTITY,
+  EMPTY_CART_ITEM,
   INCREASE_ITEM_QUANTITY,
   REMOVE_FROM_CART,
 } from "../Actions/CartAction";
@@ -11,7 +12,6 @@ const INITIAL_STATE = {
 const cartReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ADD_TO_CART: {
-      console.log("come44");
       return {
         cart: [...state.cart, action.payload],
       };
@@ -41,7 +41,11 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       }
       return state;
     }
-
+    case EMPTY_CART_ITEM:
+      return {
+        ...state,
+        cart: [],
+      };
     default:
       return state;
   }

@@ -4,20 +4,19 @@ import {
   Input,
   InputNumber,
   Popconfirm,
-  Select,
   Table,
   Typography,
 } from "antd";
-import { Option } from "antd/lib/mentions";
 import Modal from "antd/lib/modal/Modal";
-import React, { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteUser,
-  fetchUsers,
-  updateUser,
-} from "../../../Store/Actions/UserAction";
-import LoadingComponent from "../../LoadingComponent/LoadingComponent";
+  deleteProduct,
+  fetchProducts,
+  updateProduct,
+} from "../../../../Store/Actions/ProductActions";
+import LoadingComponent from "../../../LoadingComponent/LoadingComponent";
+
 const EditableCell = ({
   editing,
   dataIndex,
@@ -28,18 +27,7 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
-  const inputNode =
-    inputType === "number" ? (
-      <InputNumber />
-    ) : inputType === "select" ? (
-      <Select>
-        <Option value="user">User</Option>
-        <Option value="admin">Admin</Option>
-        <Option value="super">Super</Option>
-      </Select>
-    ) : (
-      <Input />
-    );
+  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
   return (
     <td {...restProps}>
       {editing ? (
@@ -63,25 +51,27 @@ const EditableCell = ({
     </td>
   );
 };
-
-const UsersTable = () => {
+const AllProducts = () => {
   const [form] = Form.useForm();
-  const users = useSelector((state) => state.users);
+  const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
   const [role, setRole] = useState("");
   const [showmodal, setShowModal] = useState(true);
   const [editingId, setEditingId] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
 
-  let data = users.users;
-
+  let data = products.products;
+  const hadlePageChange = (page = 1) => {
+    setPageNumber(page);
+    dispatch(fetchProducts(page));
+  };
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchProducts());
   }, []);
 
   const isEditing = (record) => record._id === editingId;
 
-  const handleSelectChange = () => {};
   const edit = (record) => {
     form.setFieldsValue({
       name: "",
@@ -100,10 +90,11 @@ const UsersTable = () => {
     setShowModal(true);
     setLoad(true);
     setTimeout(() => {
-      dispatch(deleteUser(record._id));
+      dispatch(deleteProduct(record._id));
       setLoad(false);
     }, 1000);
   };
+
   const save = async (key) => {
     try {
       const row = await form.validateFields();
@@ -112,14 +103,15 @@ const UsersTable = () => {
       const editingCell = newData[index];
       const editedData = {
         ...editingCell,
-        name: row.name,
-        email: row.email,
-        role: row.role,
+        title: row.title,
+        price: row.price,
+        category: row.category,
+        image: row.image,
       };
       setEditingId("");
       setLoad(true);
       setTimeout(() => {
-        dispatch(updateUser(editedData));
+        dispatch(updateProduct(editedData));
         setLoad(false);
       }, 1000);
     } catch (errInfo) {}
@@ -127,28 +119,38 @@ const UsersTable = () => {
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
       width: "25%",
       editable: true,
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Price",
+      dataIndex: "price",
       width: "15%",
-      key: "email",
+      key: "",
       editable: true,
     },
     {
-      title: "Role",
-      dataIndex: "role",
+      title: "Category",
+      dataIndex: "category",
       width: "15%",
-      key: "role",
+      key: "",
       editable: true,
     },
     {
-      title: "operation",
+      title: "Image",
+      dataIndex: "image",
+      width: "35%",
+      key: "image",
+      editable: true,
+      render: (_, record) => {
+        return <img src={record.image} width="50" />;
+      },
+    },
+    {
+      title: "Edit",
       dataIndex: "operation",
       render: (_, record) => {
         const editable = isEditing(record);
@@ -193,12 +195,7 @@ const UsersTable = () => {
       ...col,
       onCell: (record) => ({
         record,
-        inputType:
-          col.dataIndex === "age"
-            ? "number"
-            : col.dataIndex === "role"
-            ? "select"
-            : "text",
+        inputType: col.dataIndex === "age" ? "number" : "text",
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
@@ -207,15 +204,15 @@ const UsersTable = () => {
   });
   return (
     <>
-      {(users.loading || load) && <LoadingComponent />}
-      {users.err && (
+      {(products.loading || load) && <LoadingComponent />}
+      {products.err && !load && (
         <Modal
           title="Basic Modal"
           visible={showmodal}
           onOk={() => setShowModal(false)}
           onCancel={() => setShowModal(false)}
         >
-          <p style={{ color: "red" }}>{users.err}</p>
+          <p style={{ color: "red" }}>{products.err}</p>
         </Modal>
       )}
 
@@ -231,8 +228,10 @@ const UsersTable = () => {
           columns={mergedColumns}
           rowClassName="editable-row"
           pagination={{
-            onChange: cancel,
-            pageSize: 6,
+            onChange: hadlePageChange,
+            current: pageNumber,
+            pageSize: 9,
+            total: products.count,
           }}
         />
       </Form>
@@ -240,4 +239,4 @@ const UsersTable = () => {
   );
 };
 
-export default UsersTable;
+export default AllProducts;

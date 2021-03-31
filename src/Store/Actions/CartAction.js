@@ -2,11 +2,17 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const INCREASE_ITEM_QUANTITY = "INCREASE_ITEM_QUANTITY";
 export const DECREASE_ITEM_QUANTITY = "DECREASE_ITEM_QUANTITY";
-
+export const EMPTY_CART_ITEM = "EMPTY_CART_ITEM";
 export const addToCartAction = (item) => {
   return {
     type: ADD_TO_CART,
     payload: item,
+  };
+};
+
+export const emptyCartAction = () => {
+  return {
+    type: EMPTY_CART_ITEM,
   };
 };
 export const removeFromCartAction = (itemId) => {

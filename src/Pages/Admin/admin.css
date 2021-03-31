@@ -1,8 +1,17 @@
 .table-container table {
   min-width: 500px !important;
 }
-.ant-layout-sider-children {
+.admin-container .ant-layout {
+  height: 100vh !important;
+  overflow: scroll !important;
+}
+.admin-container .ant-layout-sider-children {
   color: white !important;
+  height: 0px !important;
+  min-height: 100vh !important;
+}
+.ant-layout-sider {
+  height: 100vh !important;
 }
 .ant-layout-sider-children ul {
   padding-left: 0px !important;
@@ -12,14 +21,91 @@
   padding: 10px;
   font-size: 16px;
   font-weight: 600;
-  border-bottom: 3px solid whitesmoke;
 }
+.ant-menu.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+  background-color: black;
+}
+
 .ant-table {
   text-align: center !important;
+  border-color: aquamarine !important;
 }
 .ant-table-cell {
   text-align: center !important;
 }
 .ant-table-content tr {
   text-align: center;
+}
+.ant-table-thead tr th {
+  background-color: black !important;
+  color: white !important;
+}
+.admin-header-container {
+  display: flex;
+  width: 100%;
+  background-color: #03080e !important;
+  color: white !important;
+  justify-content: space-between;
+  padding: 16px 40px;
+  align-items: center;
+  border-left: 2px solid white !important;
+}
+.admin-header-container button {
+  background-color: transparent !important;
+  color: white !important;
+  border: none;
+  padding: 0px;
+}
+.product-form form {
+  display: flex;
+  width: 100%;
+  text-align: center;
+}
+.admin-header-container .right {
+  border: 1px solid sandybrown;
+  border-radius: 15px;
+  padding: 0px 15px;
+}
+.ant-notification-notice-message {
+  color: green !important;
+  font-size: 20px;
+  font-weight: 700;
+}
+.left-form,
+.right-form {
+  width: 50%;
+  text-align: left !important;
+  padding: 20px;
+}
+#add-product {
+  margin-top: 20px;
+}
+
+@media (max-width: 767px) {
+  .product-form form {
+    flex-direction: column-reverse;
+  }
+  .left-form,
+  .right-form {
+    width: 100%;
+  }
+}
+
+.success {
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+.success h2 {
+  position: absolute;
+  top: 40%;
+  left: 35%;
+  color: green;
+}
+.success button {
+  position: absolute;
+  top: 47%;
+  left: 35%;
 }
