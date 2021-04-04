@@ -3,6 +3,7 @@ import { Card, Col, Divider, Pagination, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getImageUrl } from "../../../App";
 import { fetchProducts } from "../../../Store/Actions/ProductActions";
 const HomeContent = (props) => {
   const products = useSelector((state) => state.products.products);
@@ -35,7 +36,7 @@ const HomeContent = (props) => {
             }}
           >
             <Link to={`/product-details/${dt._id}`}>
-              <Card hoverable cover={<img src={dt.image} alt="productimage" />}>
+              <Card hoverable cover={<img src={getImageUrl(dt.image)} alt="productimage" />}>
                 <Divider />
 
                 <h3> {dt.title}</h3>

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, notification, Select } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -6,18 +6,45 @@ import { Link } from "react-router-dom";
 import { createUser } from "../../../Store/Actions/UserAction";
 import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 const { Option } = Select;
-const Signup = () => {
+const Signup = (params) => {
+  const [form] = Form.useForm();
   const users = useSelector((state) => state.users);
+  const reqForm = params.from
   const dispatch = useDispatch();
   const history = useHistory();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const openNotification = () => {
+    notification.open({
+      message: "User Created Successfully",
+      description: "Please Verify your Account As Soon AS Possible",
+      className: "custom-class",
+      style: {
+        width: 600,
+        backgroundColor: "white",
+        color: "black",
+        fontWeight: 600,
+      },
+    });
+  };
   const onFinish = (values) => {
+    
     setLoading(true);
     dispatch(createUser(values));
+    
+    openNotification()
     setTimeout(() => {
       setLoading(false);
-      history.replace("/user/login");
+      if (reqForm == "admin") {
+        form.resetFields()
+        history.replace("/admin/add-user");
+      }
+      else{
+        form.resetFields()
+        history.replace("/user/login");
+        
+      }
+     
     }, 1000);
   };
 
@@ -30,8 +57,9 @@ const Signup = () => {
       <Form
         name="basic"
         initialValues={{
-          remember: true,
+           
         }}
+        form ={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
@@ -120,13 +148,16 @@ const Signup = () => {
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Signup
+          {reqForm ?"Create" : "Signup" }  
           </Button>
         </Form.Item>
       </Form>
-      <p>
+      {
+        reqForm !== "admin" &&  <p>
         Have An Account? <Link to="/user/login">Login</Link>
       </p>
+      }
+     
     </div>
   );
 };

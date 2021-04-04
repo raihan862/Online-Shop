@@ -1,7 +1,6 @@
 import { Form, Table } from "antd";
 import React from "react";
 const OrderDetails = ({ data }) => {
-  console.log(data);
   const [form] = Form.useForm();
   const columns = [
     {

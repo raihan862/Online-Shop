@@ -6,7 +6,7 @@ import {
   Popconfirm,
   Select,
   Table,
-  Typography,
+  Typography
 } from "antd";
 import { Option } from "antd/lib/mentions";
 import Modal from "antd/lib/modal/Modal";
@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUser,
   fetchUsers,
-  updateUser,
+  updateUser
 } from "../../../Store/Actions/UserAction";
 import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 const EditableCell = ({
@@ -96,6 +96,9 @@ const UsersTable = () => {
   const cancel = () => {
     setEditingId("");
   };
+  const handlePaging = (pageNumber) => {
+    dispatch(fetchUsers(pageNumber));
+  }
   const handleDelete = (record) => {
     setShowModal(true);
     setLoad(true);
@@ -231,9 +234,11 @@ const UsersTable = () => {
           columns={mergedColumns}
           rowClassName="editable-row"
           pagination={{
-            onChange: cancel,
-            pageSize: 6,
+            onChange: handlePaging,
+            pageSize: 9,
+            total:users.count
           }}
+          
         />
       </Form>
     </>

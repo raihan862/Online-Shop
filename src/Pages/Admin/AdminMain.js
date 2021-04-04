@@ -13,6 +13,7 @@ import AdminHeader from "./AdminHeader/AdminHeader";
 import OrderTable from "./OrderTable/OrderTable";
 import AddProduct from "./Products/AddProduct/AddProduct";
 import AllProducts from "./Products/AllProdcuts/AllProducts";
+import AddUser from "./UsersTable/AddUser";
 import UsersTable from "./UsersTable/UsersTable";
 const AdminMain = () => {
   const { role } = useParams();
@@ -23,8 +24,8 @@ const AdminMain = () => {
       <Layout>
         <Sider style={{ height: "100vh" }}>
           <Menu
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
+            defaultSelectedKeys={["3"]}
+            defaultOpenKeys={["sub2"]}
             mode="inline"
             theme="dark"
           >
@@ -33,11 +34,17 @@ const AdminMain = () => {
               icon={<img src={logo} width="70" />}
               title="Home"
             ></Menu.Item>
-            <SubMenu key="sub1" icon={<MailOutlined />} title="Users">
+            {
+              user.role == "super" && <SubMenu key="sub1" icon={<MailOutlined />} title="Users">
               <Menu.Item key={2}>
                 <Link to="/admin/user-list">User-list</Link>
               </Menu.Item>
+              <Menu.Item key={20}>
+                <Link to="/admin/add-user">Add User</Link>
+              </Menu.Item>
             </SubMenu>
+            }
+            
             <SubMenu key="sub2" icon={<AppstoreOutlined />} title="Orders">
               <Menu.Item key={3}>
                 <Link to="/admin/orders/pending">Pending</Link>
@@ -45,14 +52,15 @@ const AdminMain = () => {
               <Menu.Item key={4}>
                 <Link to="/admin/orders/processing">Processing</Link>
               </Menu.Item>
+              {user.role == "super" && (<>
               <Menu.Item key={10}>
                 <Link to="/admin/orders/date">By Date</Link>
               </Menu.Item>
-              {user.role == "super" && (
+              
                 <Menu.Item key={5}>
                   <Link to="/admin/orders/delivered">All</Link>
                 </Menu.Item>
-              )}
+              </>)}
             </SubMenu>
             <SubMenu key="sub3" icon={<AppstoreOutlined />} title="Products">
               <Menu.Item key={6}>
@@ -74,6 +82,9 @@ const AdminMain = () => {
               <Route path="/admin/user-list">
                 <UsersTable />
               </Route>
+              <Route path="/admin/add-user">
+                <AddUser />
+              </Route>
               <Route path="/admin/perday-orders">
                 <h2>Daily Order</h2>
               </Route>
@@ -84,7 +95,7 @@ const AdminMain = () => {
                 <AddProduct />
               </Route>
               <Route path="/">
-                <UsersTable />
+                <OrderTable />
               </Route>
             </Switch>
           </Content>

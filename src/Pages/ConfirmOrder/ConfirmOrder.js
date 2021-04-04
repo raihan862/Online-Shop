@@ -1,4 +1,5 @@
-import { notification } from "antd";
+import { Form, Input, notification, Select } from "antd";
+import { Option } from "antd/lib/mentions";
 import Modal from "antd/lib/modal/Modal";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,8 +75,8 @@ const ConfirmOrder = () => {
     });
   };
   const handleConfirm = () => {
+    setShowConfirmModal(false);
     setLoading(true);
-    console.log("details", orderDetails);
     const a = { ...orderData, details: orderDetails };
     dispatch(makeOrder(a));
     setTimeout(() => {
@@ -84,6 +85,14 @@ const ConfirmOrder = () => {
       history.replace("/");
     }, 1000);
   };
+  const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select style={{ width: 70 }} defaultValue="+88">
+        <Option value="88">+88</Option>
+        <Option value="87">+87</Option>
+      </Select>
+    </Form.Item>
+  );
   return (
     // <div>{orders.loading ? <LoadingComponent /> : <h2>Complete Order</h2>}</div>
     <div>
@@ -104,8 +113,56 @@ const ConfirmOrder = () => {
         onOk={handleConfirm}
         onCancel={handleCancel}
       >
-        <h3>Your Order Will place</h3>
-        <p style={{ color: "blue" }}>Do You Confirm?</p>
+        <Form
+          name="basic"
+          initialValues={{
+            remember: true,
+          }}
+        >
+          <Form.Item
+            label="Phone Number"
+            name="phone Number"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Phone Number!",
+              },
+            ]}
+          >
+            <Input addonBefore={prefixSelector} />
+          </Form.Item>
+          <Form.Item
+            label="Pickup Addredd"
+            name="address"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Address!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Payment Method"
+            name="method"
+            rules={[
+              {
+                required: true,
+                message: "select one Option",
+              },
+            ]}
+          >
+            <Select
+              defaultValue="Select One Option"
+              placeholder="Select Method"
+            >
+              <Option value="cash">Cash On Delivery</Option>
+              <Option value="bkash">Bkash</Option>
+              <Option value="roket">Roket</Option>
+            </Select>
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );

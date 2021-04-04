@@ -5,15 +5,16 @@ import {
   InputNumber,
   Popconfirm,
   Table,
-  Typography,
+  Typography
 } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getImageUrl } from "../../../../App";
 import {
   deleteProduct,
   fetchProducts,
-  updateProduct,
+  updateProduct
 } from "../../../../Store/Actions/ProductActions";
 import LoadingComponent from "../../../LoadingComponent/LoadingComponent";
 
@@ -146,7 +147,7 @@ const AllProducts = () => {
       key: "image",
       editable: true,
       render: (_, record) => {
-        return <img src={record.image} width="50" />;
+        return <img src={getImageUrl(record.image)} width="50" />;
       },
     },
     {

@@ -64,7 +64,8 @@ export const createProduct = (productInfo) => {
   return (dispatch) => {
     dispatch(fetchProductDataAction);
     axios
-      .post(`http://localhost:3000/products/add-product`, productInfo)
+      .post(`http://localhost:3000/products/add-product`,productInfo,{}
+       )
       .then((data) => {
         dispatch(createProductAction(productInfo));
       })

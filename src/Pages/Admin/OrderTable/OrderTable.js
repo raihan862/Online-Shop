@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 import {
   fetchOrders,
   fetchOrdersByDate,
-  updateOrderStatus,
+  updateOrderStatus
 } from "../../../Store/Actions/OrderAction";
 import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 import OrderDetails from "./OrderDetails";
@@ -21,8 +21,8 @@ const OrderTable = () => {
   const [detailData, setDetailData] = useState([]);
   const [status, setStatus] = useState("");
   let data = orders.orders;
-  console.log(data);
-  const { orderType } = useParams();
+  let { orderType } = useParams();
+  orderType = orderType ? orderType : "pending"
   useEffect(() => {
     if (orderType == "date") {
     } else {
@@ -36,7 +36,6 @@ const OrderTable = () => {
     setTimeout(() => setLoad(false), 1000);
   };
   const handleShowDetails = (data) => {
-    console.log("handle Data", data);
     setDetailData(data);
     setVisible(true);
   };
@@ -113,7 +112,6 @@ const OrderTable = () => {
       title: "Details",
       key: "details",
       render: (record) => {
-        console.log("records", record);
         return (
           <Button onClick={() => handleShowDetails(record.details)}>
             Show Details
@@ -122,7 +120,6 @@ const OrderTable = () => {
       },
     },
   ];
-  console.log(detailData);
   return (
     <>
       {load && <LoadingComponent />}

@@ -5,11 +5,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchOrderDataAction } from "../../../../Store/Actions/OrderAction";
-import { createProduct } from "../../../../Store/Actions/ProductActions";
+import { createProduct } from '../../../../Store/Actions/ProductActions';
 import LoadingComponent from "../../../LoadingComponent/LoadingComponent";
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
+  const [fileUp,setFileUp] = useState({})
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const onFinish = (values) => {
@@ -17,8 +18,18 @@ const AddProduct = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-    dispatch(createProduct(values));
+    let data = new FormData();
+    data.append("title",values.title);
+    data.append("price",values.price);
+    data.append("description",values.description)
+    data.append('category',values.category)
+    data.append('file',fileUp)
+   
+    dispatch(createProduct(data));
   };
+  const handleChange=(e) =>{
+    setFileUp(e.target.files[0]);
+  }
   const handleAddAnotherProduct = () => {
     products.success = false;
 
@@ -44,8 +55,10 @@ const AddProduct = () => {
             name="basic"
             initialValues={{
               remember: true,
+               
             }}
             onFinish={onFinish}
+            
           >
             <div className="left-form">
               <Form.Item
@@ -79,14 +92,10 @@ const AddProduct = () => {
               <Form.Item
                 label="Image URl"
                 name="image"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please provide A Image Url!",
-                  },
-                ]}
               >
-                <Input />
+                
+                <input type="file" onChange={handleChange} required />
+                  
               </Form.Item>
 
               <Form.Item label="" style={{ paddingLeft: "130px" }}>

@@ -1,10 +1,9 @@
 import {
   MailOutlined,
   QuestionCircleOutlined,
-  UserOutlined,
+  UserOutlined
 } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row, Select } from "antd";
-import { Option } from "antd/lib/mentions";
+import { Button, Col, Form, Input, Row } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import userImg from "../../../assects/user.png";
@@ -114,14 +113,7 @@ const UserHome = () => {
                   },
                 ]}
               >
-                <Select
-                  defaultValue="Select One Role"
-                  placeholder="select Role"
-                >
-                  <Option value="user">User</Option>
-                  <Option value="admin">Admin</Option>
-                  <Option value="super">Super</Option>
-                </Select>
+                <Input  disabled/>
               </Form.Item>
               <div className="footer-part">
                 <Form.Item>
