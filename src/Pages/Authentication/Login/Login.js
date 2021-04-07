@@ -39,7 +39,7 @@ const Login = () => {
         onFinishFailed={onFinishFailed}
       >
         {Authentication.errMessage && (
-          <p style={{ color: "red" }}>{Authentication.errMessage}</p>
+          <p style={{ color: "red" }}>{Authentication.errMessage && "Incorrect Username or Password"}</p>
         )}
         <Form.Item
           label="Username"

@@ -41,7 +41,7 @@ export const userLogin = (userInfo) => {
   return (dispatch) => {
     dispatch(userLoginAction);
     axios
-      .post(`http://localhost:3000/login`, {
+      .post(`https://mysterious-anchorage-54512.herokuapp.com/login`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -69,7 +69,7 @@ export const updateLoginUser = (userInfo) => {
   return (dispatch) => {
     dispatch(userLoginAction);
     axios
-      .patch(`http://localhost:3000/users/update-user`, userInfo)
+      .patch(`https://mysterious-anchorage-54512.herokuapp.com/users/update-user`, userInfo)
       .then((response) => {
         dispatch(updateLoginUserAction(userInfo));
       })

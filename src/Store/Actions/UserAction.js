@@ -46,7 +46,7 @@ export const fetchUsers = (pageNumber = 1) => {
   return (dispatch) => {
     dispatch(fetchUserDataAction);
     axios
-      .get(`http://localhost:3000/users?pageNo=${pageNumber}`)
+      .get(`https://mysterious-anchorage-54512.herokuapp.com/users?pageNo=${pageNumber}`)
       .then((response) => {
         dispatch(
           fetchUserSuccessAction({
@@ -71,7 +71,7 @@ export const createUser = (userInfo, history) => {
   return (dispatch) => {
     dispatch(fetchUserDataAction);
     axios
-      .post("http://localhost:3000/users/create-user", user)
+      .post("https://mysterious-anchorage-54512.herokuapp.com/users/create-user", user)
       .then((response) => {
         dispatch(createUserAction(true));
       });
@@ -82,7 +82,7 @@ export const updateUser = (userInfo) => {
   return (dispatch) => {
     dispatch(fetchUserDataAction);
     axios
-      .patch(`http://localhost:3000/users/update-user`, userInfo)
+      .patch(`https://mysterious-anchorage-54512.herokuapp.com/users/update-user`, userInfo)
 
       .then((response) => {
         dispatch(updateUserAction(userInfo));
@@ -97,7 +97,7 @@ export const deleteUser = (userId) => {
   return (dispatch) => {
     dispatch(fetchUserDataAction);
     axios
-      .delete(`http://localhost:3000/users/delete-user/${userId}`)
+      .delete(`https://mysterious-anchorage-54512.herokuapp.com/users/delete-user/${userId}`)
       .then((response) => {
         dispatch(deleteUserAction(response.data._id));
       })

@@ -13,7 +13,7 @@ export const getImageUrl=imgUrl=>{
     return imgUrl
   }
   else {
-    return "http://localhost:3000/images/"+imgUrl
+    return "https://mysterious-anchorage-54512.herokuapp.com/images/"+imgUrl
   }
 }
 export const axiosHeader = () => {

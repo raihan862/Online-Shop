@@ -47,7 +47,7 @@ export const fetchOrders = (pageNo = 1, orderType) => {
   return (dispatch) => {
     dispatch(fetchOrderDataAction);
     axios
-      .get(`http://localhost:3000/orders/${orderType}?pageNo=${pageNo}`)
+      .get(`https://mysterious-anchorage-54512.herokuapp.com/orders/${orderType}?pageNo=${pageNo}`)
       .then((response) => {
         dispatch(
           fetchSuccessAction({
@@ -65,7 +65,7 @@ export const fetchuserOrders = (userId) => {
   return (dispatch) => {
     dispatch(fetchOrderDataAction);
     axios
-      .get(`http://localhost:3000/orders/user-orders/${userId}`)
+      .get(`https://mysterious-anchorage-54512.herokuapp.com/orders/user-orders/${userId}`)
       .then((response) => {
         dispatch(userOrderAction(response.data));
       })
@@ -78,7 +78,7 @@ export const fetchOrdersByDate = (date) => {
   return (dispatch) => {
     dispatch(fetchOrderDataAction);
     axios
-      .get(`http://localhost:3000/orders//daily-orders/${"" + date}`)
+      .get(`https://mysterious-anchorage-54512.herokuapp.com/orders//daily-orders/${"" + date}`)
       .then((response) => {
         dispatch(userOrderAction(response.data));
       })
@@ -91,7 +91,7 @@ export const makeOrder = (orderData) => {
   return (dispatch) => {
     dispatch(fetchOrderDataAction);
     axios
-      .post(`http://localhost:3000/orders/make-order`, orderData)
+      .post(`https://mysterious-anchorage-54512.herokuapp.com/orders/make-order`, orderData)
       .then((response) => {
         dispatch(emptyCartAction());
         dispatch(makeOrderAction());
@@ -106,7 +106,7 @@ export const updateOrderStatus = (orderInfo) => {
   return (dispatch) => {
     dispatch(fetchOrderDataAction);
     axios
-      .patch(`http://localhost:3000/orders/update-status`, orderInfo)
+      .patch(`https://mysterious-anchorage-54512.herokuapp.com/orders/update-status`, orderInfo)
       .then((response) => {
         dispatch(makeOrderAction());
       })

@@ -46,7 +46,7 @@ export const fetchProducts = (pageNumber = 1) => {
   return (dispatch) => {
     dispatch(fetchProductDataAction);
     axios
-      .get(`http://localhost:3000/products?pageNo=${pageNumber}`)
+      .get(`https://mysterious-anchorage-54512.herokuapp.com/products?pageNo=${pageNumber}`)
       .then((response) => {
         dispatch(
           fetchSuccessAction({
@@ -64,7 +64,7 @@ export const createProduct = (productInfo) => {
   return (dispatch) => {
     dispatch(fetchProductDataAction);
     axios
-      .post(`http://localhost:3000/products/add-product`,productInfo,{}
+      .post(`https://mysterious-anchorage-54512.herokuapp.com/products/add-product`,productInfo,{}
        )
       .then((data) => {
         dispatch(createProductAction(productInfo));
@@ -80,7 +80,7 @@ export const updateProduct = (productInfo) => {
   return (dispatch) => {
     dispatch(fetchProductDataAction);
     axios
-      .patch(`http://localhost:3000/products/update-product`, productInfo)
+      .patch(`https://mysterious-anchorage-54512.herokuapp.com/products/update-product`, productInfo)
       .then((data) => {
         dispatch(updateProductAction(productInfo));
       })
@@ -94,7 +94,7 @@ export const deleteProduct = (productId) => {
   return (dispatch) => {
     dispatch(fetchProductDataAction);
     axios
-      .delete(`http://localhost:3000/products/delete-product/${productId}`)
+      .delete(`https://mysterious-anchorage-54512.herokuapp.com/products/delete-product/${productId}`)
       .then((response) => {
         dispatch(deleteProductAction(response.data._id));
       })

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchuserOrders } from "../../../Store/Actions/OrderAction";
 import OrderDetails from "../../Admin/OrderTable/OrderDetails";
+import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 
 const UserOrders = () => {
   const orders = useSelector((state) => state.orders);
@@ -11,6 +12,7 @@ const UserOrders = () => {
   const [visible, setVisible] = useState(false);
   const [detailData, setDetailData] = useState([]);
   const [color, setColor] = useState("");
+  const [loading,setLoading] = useState(false)
   const dispatch = useDispatch();
   const handleShowDetails = (data) => {
     setDetailData(data);
@@ -18,11 +20,18 @@ const UserOrders = () => {
   };
   useEffect(() => {
     dispatch(fetchuserOrders(user._id));
+    setLoading(true);
+    setTimeout(() =>setLoading(false),1000)
   }, []);
   return (
     <div className="user-orders">
-      <h2>Your Orders</h2>
+       {loading  && <LoadingComponent />}
+      <h2 style={{fontWeight:700,padding:"20px 15px"}}>Your Orders</h2>
       <div className="orders-container">
+        {orders.orders.length<1 && !loading  && <div className="empty-order">
+          <h2>You Do Not Order yet</h2>
+          <h4>Please go To product Page to Order Some Thing</h4>
+          </div>}
         <Row style={{ justifyContent: "space-around" }}>
           {orders.orders.map((order) => (
             <Col

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../../../App";
 import { fetchProducts } from "../../../Store/Actions/ProductActions";
+import LoadingComponent from "../../LoadingComponent/LoadingComponent";
 const HomeContent = (props) => {
   const products = useSelector((state) => state.products.products);
   const count = useSelector((state) => state.products.count);
@@ -22,6 +23,9 @@ const HomeContent = (props) => {
   }, []);
   return (
     <div style={{ padding: "10px" }}>
+      {
+        products.length < 1 && <LoadingComponent />
+      }
       <Row style={{ justifyContent: "space-around" }}>
         {filterProduct?.map((dt) => (
           <Col
